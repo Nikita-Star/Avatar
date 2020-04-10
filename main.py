@@ -4,6 +4,7 @@ from telethon.tl.functions.photos import UploadProfilePhotoRequest, DeletePhotos
 from datetime import datetime
 import datetime as dt
 from utils import *
+import pytz
 client = TelegramClient('банан', api_id, api_hash)
 
 client.start()
@@ -11,7 +12,7 @@ prev_update_time = ""
 
 while True:
     if time_has_changed(prev_update_time):
-        prev_update_time = convert_time_to_string(dt.datetime.now())
+        prev_update_time = convert_time_to_string(dt.datetime.now(pytz.timezone('Europe/Moscow')))
         client(DeletePhotosRequest(client.get_profile_photos('me')))
         file = client.upload_file(f"time_images/{prev_update_time}.jpg")
         client(UploadProfilePhotoRequest(file))
